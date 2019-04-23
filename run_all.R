@@ -5,7 +5,7 @@ library(ggplot2)
 julia_set<-function(a,b,iter,step){
   
   
-  x<-seq(-1.2,1.2,by=step)
+  x<-seq(-1.1,1.1,by=step)
   y<-seq(-1.2,1.2,by=step)
   
   complex.plane<-merge(x,y)
@@ -57,13 +57,20 @@ julia_set<-function(a,b,iter,step){
 
 
 a0<- -.77; b0<-0.22
-a1<- -1; b1<-0
-a2<-0; b2<-0
-a3<-0.365; b3<-0.37
+a1<-0; b1<-0
+a2<-0.365; b2<-0.37
+a3<- -1; b3<-0
 
 
 
-p_seq<-seq(0.06,1,0.01)
+a0<- .35; b0<-0.35
+a1<- 0.365; b1<-0.37
+a2<-  0; b2<-0.37
+a3<- 0.365; b3<-0.22
+
+
+p_seq<-seq(0.00,1,0.01)
+p_seq<-sort(p_seq, decreasing = T)
 
 colfunc <-
   colorRampPalette(c('white','#5FEFE5',"#E27D60","#C38D9E",'black'))
@@ -81,11 +88,11 @@ for(p in p_seq)
     (p>2)*((3-p)*b2+(p-2)*b3)
   
   
-  an<-((1-p)*a0+p*a1)
+ an<-((1-p)*a0+p*a1)
   bn<-((1-p)*b0+p*b1)
   
   
-  complex.plane<-julia_set(a=an,b=bn,iter=60,step=0.001)
+  complex.plane<-julia_set(a=an,b=bn,iter=60,step=0.0025)
   complex.plane[norm>16,'norm']<-NA
   
   ggplot(complex.plane, aes(x, y, fill=norm)) + 
@@ -133,7 +140,7 @@ ggplot(complex.plane, aes(x, y, fill=norm_scale)) +
   xlab('')+ylab('')+
   scale_fill_gradientn(
                        colours =colfunc(10)
-                       ,na.value='#1F156B')+
+                       ,na.value='#1F156B', guide=F)+
   ylim(-1.1,1.1)+xlim(-1.1,1.1)
 
 
